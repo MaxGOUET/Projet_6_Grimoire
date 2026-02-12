@@ -1,6 +1,9 @@
 const dotenv = require("dotenv");
+dotenv.config();
 const mongoose = require("mongoose");
-const Book = require("./models/Book");
+const bookRoutes = require("./routes/book");
+const userRoutes = require("./routes/user");
+
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connexion à MongoDB réussie !"))
@@ -8,6 +11,7 @@ mongoose
 
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -22,10 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/api/books", (req, res, next) => {
-  Book.find()
-    .then((books) => res.status(200).json(books))
-    .catch((error) => res.status(400).json({ error }));
-});
+app.use("/api/books", bookRoutes);
+app.use("/api/auth", userRoutes);
 
 module.exports = app;

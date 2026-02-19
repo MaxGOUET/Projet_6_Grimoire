@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const mongoose = require("mongoose");
+const path = require("path");
 const bookRoutes = require("./routes/book");
 const userRoutes = require("./routes/user");
 
@@ -12,7 +13,7 @@ mongoose
 const express = require("express");
 const app = express();
 app.use(express.json());
-
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(

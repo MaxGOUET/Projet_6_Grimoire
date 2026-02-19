@@ -29,5 +29,8 @@ app.use((req, res, next) => {
 
 app.use("/api/books", bookRoutes);
 app.use("/api/auth", userRoutes);
+app.use((error, req, res, next) => {
+  res.status(error.status || 400).json({ message: error.message });
+});
 
 module.exports = app;

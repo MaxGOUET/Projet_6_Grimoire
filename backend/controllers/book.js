@@ -58,13 +58,16 @@ exports.modifyBook = (req, res, next) => {
       } else {
         if (req.file) {
           const filename = book.imageUrl.split("/images/")[1];
-          fs.unlink(`images/${filename}`, (error) => {
-            if (error) {
-              throw new Error(
-                "Erreur lors de la suppression de l'ancienne image : " + error,
-              );
-            }
-          });
+          if (fs.existsSync(`images/${filename}`)) {
+            fs.unlink(`images/${filename}`, (error) => {
+              if (error) {
+                throw new Error(
+                  "Erreur lors de la suppression de l'ancienne image : " +
+                    error,
+                );
+              }
+            });
+          }
         }
         Book.updateOne(
           { _id: req.params.id },

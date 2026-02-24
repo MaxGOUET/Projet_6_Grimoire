@@ -55,7 +55,7 @@ const limiter = rateLimit({
 });
 app.use(
   helmet({
-    crossOriginResourcePolicy: false,
+    crossOriginResourcePolicy: { policy: "same-site" },
   }),
 );
 app.use(limiter);

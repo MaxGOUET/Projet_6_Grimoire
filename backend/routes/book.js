@@ -23,34 +23,6 @@ router.get("/", bookCtrl.getAllBooks);
 
 /**
  * @swagger
- * /api/books:
- *   post:
- *     summary: Crée un nouveau livre
- *     tags: [Books]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               book:
- *                 type: string
- *               image:
- *                 type: string
- *                 format: binary
- *     responses:
- *       201:
- *         description: Livre créé avec succès
- *       400:
- *         description: Erreur dans la création
- */
-router.post("/", auth, multer, sharp, bookCtrl.createBook);
-
-/**
- * @swagger
  * /api/books/bestrating:
  *   get:
  *     summary: Récupère les 3 meilleurs livres
@@ -80,6 +52,67 @@ router.get("/bestrating", bookCtrl.getBestRatingBooks);
  *         description: Livre non trouvé
  */
 router.get("/:id", bookCtrl.getBookById);
+
+/**
+ * @swagger
+ * /api/books:
+ *   post:
+ *     summary: Crée un nouveau livre
+ *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               book:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Livre créé avec succès
+ *       400:
+ *         description: Erreur dans la création
+ */
+router.post("/", auth, multer, sharp, bookCtrl.createBook);
+
+/**
+ * @swagger
+ * /api/books/{id}/rating:
+ *   post:
+ *     summary: Ajoute une note à un livre
+ *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               rating:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 5
+ *     responses:
+ *       200:
+ *         description: Note ajoutée avec succès
+ *       400:
+ *         description: Erreur dans l'ajout de la note
+ */
+router.post("/:id/rating", auth, bookCtrl.rateBook);
 
 /**
  * @swagger
@@ -136,38 +169,5 @@ router.delete("/:id", auth, bookCtrl.deleteBook);
  *         description: Livre non trouvé
  */
 router.put("/:id", auth, multer, sharp, bookCtrl.modifyBook);
-
-/**
- * @swagger
- * /api/books/{id}/rating:
- *   post:
- *     summary: Ajoute une note à un livre
- *     tags: [Books]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               rating:
- *                 type: number
- *                 minimum: 0
- *                 maximum: 5
- *     responses:
- *       200:
- *         description: Note ajoutée avec succès
- *       400:
- *         description: Erreur dans l'ajout de la note
- */
-router.post("/:id/rating", auth, bookCtrl.rateBook);
 
 module.exports = router;

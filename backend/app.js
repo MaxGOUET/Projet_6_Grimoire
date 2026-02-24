@@ -18,7 +18,6 @@ const app = express();
 
 const helmet = require("helmet");
 
-// Configuration Swagger
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -54,7 +53,11 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   ipv6Subnet: 56, // Set to 60 or 64 to be less aggressive, or 52 or 48 to be more aggressive
 });
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  }),
+);
 app.use(limiter);
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));

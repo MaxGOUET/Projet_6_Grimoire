@@ -12,6 +12,8 @@ mongoose
 
 const express = require("express");
 const app = express();
+const helmet = require("helmet");
+app.use(helmet());
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use((req, res, next) => {

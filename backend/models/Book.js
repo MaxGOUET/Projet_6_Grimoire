@@ -1,10 +1,13 @@
+// Modèle Book avec schéma de rating
 const mongoose = require("mongoose");
 
+// Schéma pour les évaluations
 const ratingSchema = mongoose.Schema({
   userId: { type: String, required: true },
   grade: { type: Number, required: true },
 });
 
+// Schéma du livre
 const bookSchema = mongoose.Schema({
   userId: { type: String, required: true },
   title: { type: String, required: true },

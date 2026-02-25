@@ -1,3 +1,4 @@
+// Middleware de conversion d'images en WebP
 const sharp = require("sharp");
 const path = require("path");
 

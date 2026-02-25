@@ -1,8 +1,9 @@
+// Importation des modules et modèles
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const User = require("../models/User.js");
 
+// Crée un nouvel utilisateur avec mot de passe hashé
 exports.signUp = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
@@ -20,6 +21,7 @@ exports.signUp = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// Authentifie un utilisateur et retourne un token JWT
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
